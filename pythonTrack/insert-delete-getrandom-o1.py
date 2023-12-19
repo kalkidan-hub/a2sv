@@ -22,7 +22,7 @@ class RandomizedSet:
             self.randList[idx], self.randList[-1] = self.randList[-1], self.randList[idx]
             del self.randSet[val]
 
-            # what's left? ofcoarse, popping,,, not hip, tho lol
+            # what's left? of course, popping,,, 
             self.randList.pop() 
             return True       
 
