@@ -1,27 +1,20 @@
 class Solution:
     def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
-        # calculate the number of windows whose sum is less than the goal 
-        # and whose sum is less than (goal-1) then substract these two to get the windows whose sum is exactly goal
+        # prefix sum approach 
 
-        def sum_less_than(goal):
-            nonlocal nums
-            _sum, i = 0, 0
-            total = 0
+        # use a dictionary to store a history,
 
-            for j in range(len(nums)):
-                _sum += nums[j]
+        history = {0:1}
+        running_sum = 0
+        valid_subarrays = 0
 
-                while i < len(nums) and _sum > goal:
-                    _sum -= nums[i]
-                    i += 1
-
-                total += j - i + 1
-            return total
-
-        # print(sum_less_than(-1))
-        return sum_less_than(goal) - sum_less_than(goal-1) if goal else sum_less_than(goal)
-
-                
-
-
-
+        for n in nums:
+            running_sum += n
+            if (running_sum - goal) in history:
+                valid_subarrays += history[(running_sum - goal)]
+            # updating history
+            if running_sum in history:
+                history[running_sum] += 1
+            else:
+                history[running_sum] = 1
+        return valid_subarrays
