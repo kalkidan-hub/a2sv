@@ -6,18 +6,18 @@
 #         self.right = right
 class Solution:
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
-        record = []
-        def traverse(root,node):
-            if not root:
-                record.append(node)
-                return 
-            node += str(root.val)
-            if not root.right and not root.left:
-                record.append(node)
-                return
-            traverse(root.right,node)
-            traverse(root.left,node)
-        traverse(root,'')
-        # check the palindromicity, of the record, 
-        i, j = 0, len(record) - 1
-        return all([record[i+k] == record[j-k] for k in range(len(record)//2)])
+
+        left, right = root.left, root.right
+
+        def symmetry(r1,r2):
+
+            if not r1 and not r2:
+                return True
+            elif( r1 and not r2) or (not r1 and r2):
+                return False
+            else:
+                side = symmetry(r1.left,r2.right)
+                middle = symmetry(r1.right,r2.left)
+                return r1.val == r2.val and side and middle
+
+        return symmetry(left,right)       
