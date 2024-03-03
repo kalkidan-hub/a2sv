@@ -1,16 +1,16 @@
 class Solution:
     def kthGrammar(self, n: int, k: int) -> int:
 
-        curr = False
-        left, right = 1, 2 ** (n - 1)
+        if n == 1:
+            return 0
+        parent = self.kthGrammar(n-1,math.ceil(k/2))
 
-        for _ in range(n - 1):
-            mid = (left + right)//2
-
-            if k <= mid:
-                right = mid
-            else:
-                left = mid + 1
-                curr = not curr
-
-        return int(curr)
+        if k%2 and parent:
+            return 1
+        elif not k%2 and parent:
+            return 0
+        
+        elif k%2 and not parent:
+            return 0
+        else:
+            return 1
