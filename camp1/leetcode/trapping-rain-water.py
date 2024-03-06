@@ -1,16 +1,24 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
-        left_max = [height[0]]
-        right_max = [height[-1]]
+        # two pointer approach
 
-        for i in range(1,len(height)):
-            left_max.append(max(left_max[-1],height[i]))
-        for j in range(len(height) - 2,-1,-1):
-            right_max.append(max(right_max[-1],height[j]))
-        right_max.reverse()
+        left, right = 0, len(height) - 1
+        left_bar, right_bar = height[left], height[right]
+
         water = 0
-        for i in range(len(height)):
-            trap = min(left_max[i],right_max[i]) - height[i]
-            if trap > 0:
-                water += trap
+
+        while left < right:
+            if left_bar < right_bar:
+                if height[left] > left_bar:
+                    left_bar = height[left]
+                else:
+                    water += left_bar - height[left]
+                    left += 1
+            else:
+                if height[right] > right_bar:
+                    right_bar = height[right]
+
+                else:
+                    water += right_bar - height[right]
+                    right -= 1
         return water
